@@ -53,7 +53,7 @@ In this case, the MAE calculates the mean difference in values over the predicte
 ### Data Exploration
 The data being used in this project is sourced via the Yahoo Finance API. Since the API in itself is not well documented and several parts of it have been depracted, I have used the zipline python package that loads historical data from the API without an issue. The total package expects certain parameters to be provided to it for fetching data, such as time period and index to be monitored. The time period I have specified is from the 1st of Jan 2000 - 1st of Jan 2017, a total of 17 years. 
 
-![data.describe()] (http://i.imgur.com/enEy3gf.png)
+![data describe](http://i.imgur.com/enEy3gf.png)
 
 The package returns data with multiple features that are :
 * Open: Price of the stock [in our case value of the index] in the beginning of the day
