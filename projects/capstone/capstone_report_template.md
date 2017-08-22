@@ -79,7 +79,7 @@ All the features together:
 An interesting observation is that all the values of the features returned by zipline are quite similar. The reason for this is that in a stable index such as the S&P 500, individual parameters don't stray afar from each other, as a whole the index does well or poorly. It's worthwhile to note the spike in the graphs around 2008-2009 which corresponds to the global economic meltdown, very low volumes for very high prices.
 
 ### Algorithms and Techniques
-Given that this is a regression problem, I would like to use linear regression as my learner for a given input. The input itself will be a set of technical indicators. The dependant value, or the value that needs to be predicted would be the 'price' variable. Linear regression helps us model the relationship between a scalar dependant variable [y] and a set of explanatory variables [X]. If the learner is successfull, it would understand the trend of the underlying data and the corresponding MAE would be small.
+Given that this is a regression problem, I would like to use linear regression as my learner for a given input. The input itself will be a set of technical indicators. The dependant value, or the value that needs to be predicted would be the 'price' variable. Linear regression helps us model the relationship between a scalar dependant variable [y] and a set of explanatory variables [X]. If the learner is successfull, it would understand the trend of the underlying data and the corresponding MAE would be small. For further refinement and improvement I would like to try a SVM implementation. 
 
 
 ### Benchmark
@@ -87,25 +87,44 @@ Luckily, there exists an industry standard that monitors the fluctuaions in the 
 
 
 ## III. Methodology
-_(approx. 3-5 pages)_
 
 ### Data Preprocessing
-In this section, all of your preprocessing steps will need to be clearly documented, if any were necessary. From the previous section, any of the abnormalities or characteristics that you identified about the dataset will be addressed and corrected here. Questions to ask yourself when writing this section:
-- _If the algorithms chosen require preprocessing steps like feature selection or feature transformations, have they been properly documented?_
-- _Based on the **Data Exploration** section, if there were abnormalities or characteristics that needed to be addressed, have they been properly corrected?_
-- _If no preprocessing is needed, has it been made clear why?_
+The first step in data preprocessing would be to parse the historic data into the selected technical indicators which can then be used for prediction. Following is a summary of the technical indicators being used:
+
+- Momentum: It measures the securities rate-of-change. Like in physics, it is a measurement that provides details of the acceleration/deceleration of the stock in question. On the basis of whether the speed is upwards/downwards bullish/bearish interpretations might be made
+- Relative Strength Index: The RSI creates a measure of value between 0-100, key points being above 70 and below 30. On the basis of these two keypoints one can determine whether the stock is overbought or undersold. If a particular stock is above 70, it can be considered as overbought, similarly for a stock below 30, it is considered to be undersold
+- On Balance Volume: Another momentum indicator, it uses volume flow to predict changes in stock price. The belief is that when volume increases sharply without a significant change in the stock's price, the price will eventually jump upward, and vice versa.
+- Simple Moving Average: It is an arithmetic moving average calculated by adding the closing price of the security for a number of time periods and then dividing this total by the number of time periods. This is important to traders, as when short-term SMAs cross long-term SMAs it gives them a signal to buy/sell
+- Exponential Moving Average: It is similar to a simple moving average, except that more weight is given to the latest data, this gives traders a better idea about day-to-day nuances but can also give false buy/sell signals, which is why it is used alongside SMA
+- Weighted Moving Average: Similar to EMA, however WMA assigns a unique weight to every element in the period, not just the latest observations. Additionally, the sum of all weights is 1
+- Double Exponential Moving Average: It is an attempt to reduce the amount of lag time found in traditional moving averages. It is a composite implementation of single and double EMAs producing another EMA with less lag than either of the original two 
+- Average Directional Index: is an indicator used in technical analysis as an objective value for the strength of a trend. ADX is non-directional, so it quantifies a trend's strength regardless of whether it is up or down. Higher the number, stronger the trend, lower the number, weaker it is
+- Rate of Change Percentage: It is a momentum indicator that measures the percentage change in price between the current price and the price n periods in the past
+- Williams %R: It has values on an inverted scale, i.e. 0 at the top and 100 at the bottom. Similar to RSI, it has two keypoints, 20 and 80. Stock values below 20 are considered overbought and those over 80 as oversold
+
+After selecting all the technical indicators, they're normalized between -1 and 1 to bring all the values to the same scale. Following are plots of multiple indicators post normalization:
+
+![5 indicators](http://i.imgur.com/ph8deHu.png)
+![rocp willr](http://i.imgur.com/903t9Zb.png)
+![mom dx rsi](http://i.imgur.com/kbtqOvW.png)
+
+As it can be seen, normalizing these values or using technical indicators instead of the input historic data has not removed the underlying trend that can be seen [one can still see major peaks and troughs in the 2008-09 period]
 
 ### Implementation
-In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
-- _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
-- _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
-- _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_
+It is time to implement the linear regression learning model. The linear regression formula used will be simple: 
+
+![linear regression](http://i.imgur.com/xacSGaE.gif)
+
+In this equation, y is predicted price, xi is the technical indicator and ki and b are co-effcients that need to be tuned to get the right value. 
+
+Once the regression model is fixed, I would split the data into two parts, the training set and the test set. The need to do this as has been made clear during the nanodegree is to overcome the problems of overfitting and to check how accurate our predictions are. 
 
 ### Refinement
-In this section, you will need to discuss the process of improvement you made upon the algorithms and techniques you used in your implementation. For example, adjusting parameters for certain models to acquire improved solutions would fall under the refinement category. Your initial and final solutions should be reported, as well as any significant intermediate results as necessary. Questions to ask yourself when writing this section:
-- _Has an initial solution been found and clearly reported?_
-- _Is the process of improvement clearly documented, such as what techniques were used?_
-- _Are intermediate and final solutions clearly reported as the process is improved?_
+The previous section saw the implementation of a simple learning model using linear regression. In this section, I will buid a new learning agent using SVM. A major difference in my approach to SVM vis-a-vis the linear regression model would be the selection of hyperpaarameters. The best way for to choose hyperparameters for the model are via cross-validation I feel. In cross validation one creates ultiple train-test sets or folds and runs the model on many combinations of these folds. One point that needs to be kept in mind here is that during the course, cross-validation was used by running random training data on the model, however, given the time sensitive information held by this dataset random selection is not possible. To mitigate this issue for every nth fold, the train set should run on 1..n and the test set should run on the n+1th fold. For example :
+
+If there are 3 folds,
+* Train should run on fold 1, fold 2
+* Test should run on fold 3
 
 
 ## IV. Results
@@ -155,6 +174,9 @@ In this section, you will need to provide discussion as to how one aspect of the
 * [Quantitative Analysis](http://www.investopedia.com/terms/q/quantitativeanalysis.asp)
 * [Mean Absolute Error](https://www.kaggle.com/wiki/MeanAbsoluteError)
 * [Techical Indicators](http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:introduction_to_technical_indicators_and_oscillators)
+* [Exponential Moving Average](http://www.investopedia.com/terms/e/ema.asp)
+* [Simple Moving Average](http://www.investopedia.com/terms/s/sma.asp)
+* [Double Exponential Moving Average](http://www.investopedia.com/articles/trading/10/double-exponential-moving-average.asp)
 
 **Before submitting, ask yourself. . .**
 
