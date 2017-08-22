@@ -42,10 +42,11 @@ In this section, I would like to breifly list out the steps taken out for the so
 * Build model and check for performance on the basis of the metrics that will be determined in the next section
 
 ### Metrics
-In this section, you will need to clearly define the metrics or calculations you will use to measure performance of a model or result in your project. These calculations and metrics should be justified based on the characteristics of the problem and problem domain. Questions to ask yourself when writing this section:
-- _Are the metrics you’ve chosen to measure the performance of your models clearly discussed and defined?_
-- _Have you provided reasonable justification for the metrics chosen based on the problem and solution?_
+I belive the fundamnetal problem at hand is one of regression and for regression models, predicting the Mean Absolute Error (MAE) is a good metric to determine the performance of the agent. To define MAE, it is a quantity used to measure how close forecasts or predictions are to the eventual outcomes. The formula is as follows: 
 
+![MAE formula](http://i.imgur.com/q8lQz2c.gif )
+
+In this case, the MAE calculates the mean difference in values over the predicted and correct values. A high MAE shows that the model is not working the way it should and has not learnt the trend of the underlying data. A low MAE shows the very opposite of that, i.e the model has learnt the trend of the underlying data and fit itself well to it. 
 
 ## II. Analysis
 _(approx. 2-4 pages)_
@@ -138,7 +139,7 @@ In this section, you will need to provide discussion as to how one aspect of the
 
 -----------
 
-## VI References
+## VI. References
 * [Techinal Analysis](http://www.investopedia.com/terms/t/technicalanalysis.asp)
 * [Fundamental Analysis](http://www.investopedia.com/terms/f/fundamentalanalysis.asp)
 * [Quantitative Analysis](http://www.investopedia.com/terms/q/quantitativeanalysis.asp)
