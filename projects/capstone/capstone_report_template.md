@@ -139,11 +139,11 @@ In this section, you will need to provide discussion as to how one aspect of the
 -----------
 
 ## VI References
-* [Techinal Analysis] (http://www.investopedia.com/terms/t/technicalanalysis.asp)
-* [Fundamental Analysis] (http://www.investopedia.com/terms/f/fundamentalanalysis.asp)
-* [Quantitative Analysis] (http://www.investopedia.com/terms/q/quantitativeanalysis.asp)
-* [Mean Absolute Error] (https://www.kaggle.com/wiki/MeanAbsoluteError)
-* [Techical Indicators] (http://stockcharts.com/school/* doku.php?id=chart_school:technical_indicators:introduction_to_technical_indicators_and_oscillators)
+* [Techinal Analysis](http://www.investopedia.com/terms/t/technicalanalysis.asp)
+* [Fundamental Analysis](http://www.investopedia.com/terms/f/fundamentalanalysis.asp)
+* [Quantitative Analysis](http://www.investopedia.com/terms/q/quantitativeanalysis.asp)
+* [Mean Absolute Error](https://www.kaggle.com/wiki/MeanAbsoluteError)
+* [Techical Indicators](http://stockcharts.com/school/* doku.php?id=chart_school:technical_indicators:introduction_to_technical_indicators_and_oscillators)
 
 **Before submitting, ask yourself. . .**
 
