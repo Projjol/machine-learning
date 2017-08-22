@@ -73,6 +73,9 @@ Below are plots of all the features that we get from zipline:
 ![Price](http://i.imgur.com/1fEXx5c.png)
 ![Volume](http://i.imgur.com/AdsMEHR.png)
 
+All the features together:
+![Together](http://i.imgur.com/aMMCAG1.png)
+
 An interesting observation is that all the values of the features returned by zipline are quite similar. The reason for this is that in a stable index such as the S&P 500, individual parameters don't stray afar from each other, as a whole the index does well or poorly. It's worthwhile to note the spike in the graphs around 2008-2009 which corresponds to the global economic meltdown, very low volumes for very high prices.
 
 ### Algorithms and Techniques
