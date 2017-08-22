@@ -1,15 +1,12 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Project
-Joe Udacity  
-December 31st, 2050
+Projjol Banerji  
+August 22nd, 2017
 
 ## I. Definition
-_(approx. 1-2 pages)_
 
 ### Project Overview
-In this section, look to provide a high-level overview of the project in layman’s terms. Questions to ask yourself when writing this section:
-- _Has an overview of the project been provided, such as the problem domain, project origin, and related datasets or input data?_
-- _Has enough background information been given so that an uninformed reader would understand the problem domain and following problem statement?_
+Stock price prediction has been an interesting and hard problem for quite a while now. The information it provides can give an individual or even a firm a strong overview of what is to come helping them plan for the same. My motivation for the project stems out of my interest in the 2008 economic crash. While I was quite young at that point, I remember it as a defining moment in our history. Later on, as I grew up, I tried to collect as much information about the event as possible. Throughout this process, all that was there in my mind was, how could Wall Street not see this coming? The answer to that I would think is cognitive bias. I think this is a blatant example of the normalcy bias, wherein even in moments of grave danger, one pretends as if everything is fine. With the knowledge that I acquired through the course of the nanodegree, I felt I could help create a prediction tool, which would provide people with data that can help them get over this bias, and help me understand the stock market better. In this project I will be creating a stock market predictor, which has ingested data from 16 years and would predict the estimated value of the market on a given query date. 
 
 ### Problem Statement
 In this section, you will want to clearly define the problem that you are trying to solve, including the strategy (outline of tasks) you will use to achieve the desired solution. You should also thoroughly discuss what the intended solution will be for this problem. Questions to ask yourself when writing this section:
