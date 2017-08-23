@@ -105,7 +105,7 @@ The first step in data preprocessing would be to parse the historic data into th
 After selecting all the technical indicators, they're normalized between -1 and 1 to bring all the values to the same scale. Following are plots of multiple indicators post normalization:
 
 ![5 indicators](http://i.imgur.com/NdqouyS.png)
-![rocp willr](http://i.imgur.com/X32A95Q.png)
+![rocp willr](http://i.imgur.com/X1WMD3Y.png)
 ![mom dx rsi](http://i.imgur.com/7eoeohD.png)
 
 As it can be seen, normalizing these values or using technical indicators instead of the input historic data has not removed the underlying trend that can be seen [one can still see major peaks and troughs in the 2008-09 period]
