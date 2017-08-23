@@ -53,7 +53,7 @@ In this case, the MAE calculates the mean difference in values over the predicte
 ### Data Exploration
 The data being used in this project is sourced via the Yahoo Finance API. Since the API in itself is not well documented and several parts of it have been depracted, I have used the zipline python package that loads historical data from the API without an issue. The total package expects certain parameters to be provided to it for fetching data, such as time period and index to be monitored. The time period I have specified is from the 1st of Jan 2000 - 1st of Jan 2017, a total of 17 years. 
 
-![data describe](http://i.imgur.com/enEy3gf.png)
+![data describe](http://i.imgur.com/tLiDXp1.png)
 
 The package returns data with multiple features that are :
 * Open: Price of the stock [in our case value of the index] in the beginning of the day
@@ -66,15 +66,15 @@ The package returns data with multiple features that are :
 ### Exploratory Visualization
 Below are plots of all the features that we get from zipline:
 
-![Open](http://i.imgur.com/r0G3RqL.png)
-![Close](http://i.imgur.com/1mrJQxJ.png)
-![High](http://i.imgur.com/wYpiaKv.png)
-![Low](http://i.imgur.com/K0752Pi.png)
-![Price](http://i.imgur.com/1fEXx5c.png)
-![Volume](http://i.imgur.com/AdsMEHR.png)
+![Open](http://i.imgur.com/Hq14bL9.png)
+![Close](http://i.imgur.com/SyYLm45.png)
+![High](http://i.imgur.com/unyz719.png)
+![Low](http://i.imgur.com/XiXLO2O.png)
+![Adj Close](http://i.imgur.com/gGmjcwi.png)
+![Volume](http://i.imgur.com/IwmYLZN.png)
 
 All the features together:
-![Together](http://i.imgur.com/aMMCAG1.png)
+![Together](http://i.imgur.com/JRszpnj.png)
 
 An interesting observation is that all the values of the features returned by zipline are quite similar. The reason for this is that in a stable index such as the S&P 500, individual parameters don't stray afar from each other, as a whole the index does well or poorly. It's worthwhile to note the spike in the graphs around 2008-2009 which corresponds to the global economic meltdown, very low volumes for very high prices.
 
@@ -83,7 +83,7 @@ Given that this is a regression problem, I would like to use linear regression a
 
 
 ### Benchmark
-Luckily, there exists an industry standard that monitors the fluctuaions in the value of the 'price' component of our data. It is the CBOE VIX [Chicago Board Options Exchange Volatility Index] value. The VIX value changes everyday and is a benchmark to analysts and traders as to how much volatility one might see in the data for that trading day. From the CBOE's website, I downloaded VIX values from 1998-2017. Computing an average VIX value on these inputs, I got the value as : 19.81. Thus, the goal for the linear regression learner is to predict prices that are better/lower than the average VIX value. To carry out this comparision, the metric defined above, the MAE will be useful.
+Luckily, there exists an industry standard that monitors the fluctuaions in the value of the 'price' component of our data. It is the CBOE VIX [Chicago Board Options Exchange Volatility Index] value. The VIX value changes everyday and is a benchmark to analysts and traders as to how much volatility one might see in the data for that trading day. From the CBOE's website, I downloaded VIX values from 1998-2017. Computing an average VIX value on these inputs, I got the value as : 14.82. Thus, the goal for the linear regression learner is to predict prices that are better/lower than the average VIX value. To carry out this comparision, the metric defined above, the MAE will be useful.
 
 
 ## III. Methodology
@@ -93,7 +93,7 @@ The first step in data preprocessing would be to parse the historic data into th
 
 - Momentum: It measures the securities rate-of-change. Like in physics, it is a measurement that provides details of the acceleration/deceleration of the stock in question. On the basis of whether the speed is upwards/downwards bullish/bearish interpretations might be made
 - Relative Strength Index: The RSI creates a measure of value between 0-100, key points being above 70 and below 30. On the basis of these two keypoints one can determine whether the stock is overbought or undersold. If a particular stock is above 70, it can be considered as overbought, similarly for a stock below 30, it is considered to be undersold
-- On Balance Volume: Another momentum indicator, it uses volume flow to predict changes in stock price. The belief is that when volume increases sharply without a significant change in the stock's price, the price will eventually jump upward, and vice versa.
+- Average Directional Index: ADX is used to quantify trend strength. ADX calculations are based on a moving average of price range expansion over a given period of time
 - Simple Moving Average: It is an arithmetic moving average calculated by adding the closing price of the security for a number of time periods and then dividing this total by the number of time periods. This is important to traders, as when short-term SMAs cross long-term SMAs it gives them a signal to buy/sell
 - Exponential Moving Average: It is similar to a simple moving average, except that more weight is given to the latest data, this gives traders a better idea about day-to-day nuances but can also give false buy/sell signals, which is why it is used alongside SMA
 - Weighted Moving Average: Similar to EMA, however WMA assigns a unique weight to every element in the period, not just the latest observations. Additionally, the sum of all weights is 1
@@ -104,9 +104,9 @@ The first step in data preprocessing would be to parse the historic data into th
 
 After selecting all the technical indicators, they're normalized between -1 and 1 to bring all the values to the same scale. Following are plots of multiple indicators post normalization:
 
-![5 indicators](http://i.imgur.com/ph8deHu.png)
-![rocp willr](http://i.imgur.com/903t9Zb.png)
-![mom dx rsi](http://i.imgur.com/kbtqOvW.png)
+![5 indicators](http://i.imgur.com/NdqouyS.png)
+![rocp willr](http://i.imgur.com/X32A95Q.png)
+![mom dx rsi](http://i.imgur.com/7eoeohD.png)
 
 As it can be seen, normalizing these values or using technical indicators instead of the input historic data has not removed the underlying trend that can be seen [one can still see major peaks and troughs in the 2008-09 period]
 
@@ -128,45 +128,39 @@ If there are 3 folds,
 
 
 ## IV. Results
-_(approx. 2-3 pages)_
 
 ### Model Evaluation and Validation
-In this section, the final model and any supporting qualities should be evaluated in detail. It should be clear how the final model was derived and why this model was chosen. In addition, some type of analysis should be used to validate the robustness of this model and its solution, such as manipulating the input data or environment to see how the model’s solution is affected (this is called sensitivity analysis). Questions to ask yourself when writing this section:
-- _Is the final model reasonable and aligning with solution expectations? Are the final parameters of the model appropriate?_
-- _Has the final model been tested with various inputs to evaluate whether the model generalizes well to unseen data?_
-- _Is the model robust enough for the problem? Do small perturbations (changes) in training data or the input space greatly affect the results?_
-- _Can results found from the model be trusted?_
+As has been taught during the course, before running a linear regression, it is a good idea to check the residual plot. If the residual plot is tightly clustered, regression becomes more accurate versus a loosely clustered plot where prediction would be tougher due to the spread of the data.
+
+![residual](http://i.imgur.com/nYnyiKR.png)
+
+As the residual sends a positive signal to us, I ran the regression model on the testing dataset and I received a MAE of 13.10, which is lesser than our benchmark MAE which is 14.82. For SVM regression, a similar process as linear regression is followed the additional steps being the quirk mentioned above that consecutive folds must be used. With this is in place, the SVM regression had an MAE of 45.54. Compared to the benchmark MAE, this performs poorly and my assumption that a more complex model would understand the underlying trend of the data better is wrong. 
 
 ### Justification
-In this section, your model’s final solution and its results should be compared to the benchmark you established earlier in the project using some type of statistical analysis. You should also justify whether these results and the solution are significant enough to have solved the problem posed in the project. Questions to ask yourself when writing this section:
-- _Are the final results found stronger than the benchmark result reported earlier?_
-- _Have you thoroughly analyzed and discussed the final solution?_
-- _Is the final solution significant enough to have solved the problem?_
+As the previous section showed, a complex model such as SVM could not follow the underlying trend of the data and could not acheive a low enough MAE. Another justification can be that my tuning of the C parameter in the SVM was not upto the mark which is why the poor result was seen.
 
 
 ## V. Conclusion
-_(approx. 1-2 pages)_
 
 ### Free-Form Visualization
-In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:
-- _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
-- _Is the visualization thoroughly analyzed and discussed?_
-- _If a plot is provided, are the axes, title, and datum clearly defined?_
+In this section I have added the visualization  for the true historic data, linear regression curve and SVM model. As it can be seen, the linear regression model closesly follows the true historic data, whereas the SVM model is off by a little. 
+
+![reg svm](http://i.imgur.com/r6dc5M6.png)
 
 ### Reflection
-In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
-- _Have you thoroughly summarized the entire process you used for this project?_
-- _Were there any interesting aspects of the project?_
-- _Were there any difficult aspects of the project?_
-- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_
+In this project, a supervised learning model is built for stock prediction. I used Yahoo's finance API to get the required historical data [16 years in total]. For my metrics, I used the average closing VIX value released by the CBOE. The input stock data was transformed into values using technical indicators which were inputs to the prediction model. Models tried in this project were:
+* Linear Regression
+* SVM
+As can be seen from results in the previous section, the linear regression model is closer to the original data versus the SVM model. Stock prediction by its nature is a hard problem I believe. A previous notion that I had before the capstone project, which I now think is rather naive, was that given enough data, building an adequetly performing model is easy. Post this project, I disagree with this point of view. The stock market and the S&P index in particular has a lot of data however given the time specific nature of the data, it cannot be used as :
+
+* Input directly
+* Without the use of technical indicators
+
+Another learning that I had during this project was the importance of the data pre-processing step. In other projects during the course of the nanodegree, the data pre-processing step was very clearly layed out and easy to understand. In this project, learning about the technical analysis method that many analysts use in their day to day life was an interesting point, as it made me realize that for models to accurately understand the data, it needs to be formatted in a way that reduces the noise and adds useful information. 
 
 ### Improvement
-In this section, you will need to provide discussion as to how one aspect of the implementation you designed could be improved. As an example, consider ways your implementation can be made more general, and what would need to be modified. You do not need to make this improvement, but the potential solutions resulting from these changes are considered and compared/contrasted to your current solution. Questions to ask yourself when writing this section:
-- _Are there further improvements that could be made on the algorithms or techniques you used in this project?_
-- _Were there algorithms or techniques you researched that you did not know how to implement, but would consider using if you knew how?_
-- _If you used your final solution as the new benchmark, do you think an even better solution exists?_
+An idea I'm interested in exploring is the possibility of using boosting in this problem. The reason this idea seems interesting is because a number of technical indicators add a different value to the underlying data and a weak learner associated with each technical indicator and together they might increase the efficiency of the base learner. 
 
------------
 
 ## VI. References
 * [Techinal Analysis](http://www.investopedia.com/terms/t/technicalanalysis.asp)
@@ -177,13 +171,3 @@ In this section, you will need to provide discussion as to how one aspect of the
 * [Exponential Moving Average](http://www.investopedia.com/terms/e/ema.asp)
 * [Simple Moving Average](http://www.investopedia.com/terms/s/sma.asp)
 * [Double Exponential Moving Average](http://www.investopedia.com/articles/trading/10/double-exponential-moving-average.asp)
-
-**Before submitting, ask yourself. . .**
-
-- Does the project report you’ve written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Analysis** and **Methodology**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your analysis, methods, and results?
-- Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
-- Is the code that implements your solution easily readable and properly commented?
-- Does the code execute without error and produce results similar to those reported?
